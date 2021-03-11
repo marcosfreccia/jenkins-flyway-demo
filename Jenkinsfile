@@ -23,6 +23,9 @@ pipeline {
 
                 }
                 stage("Flyway - Migrate"){
+                    when {
+                        branch 'first-branch'
+                    }
                     steps{
                     flywayrunner installationName: 'flyway', flywayCommand: 'migrate', credentialsId: FLYWAY_CRED,  url: 'jdbc:sqlserver://sqlserver001.cxilhnt2jjvn.eu-central-1.rds.amazonaws.com:1433;databaseName=flywaytests', locations: "filesystem:${env.WORKSPACE}/sql", commandLineArgs: ''
                     }
