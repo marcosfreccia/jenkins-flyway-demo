@@ -14,13 +14,20 @@ pipeline {
                     echo "FLYWAY: ${FLYWAY_CRED}"
                     echo "BRANCH: ${env.BRANCH_NAME}"
                     echo "filesystem: ${env.WORKSPACE}"
-                    // flywayrunner installationName: 'flyway', flywayCommand: 'info', credentialsId: FLYWAY_CRED,  url: 'jdbc:sqlserver://sqlserver001.cxilhnt2jjvn.eu-central-1.rds.amazonaws.com:1433;databaseName=flywaytests', locations: 'filesystem:$WORKSPACE/sql/', commandLineArgs: ''
                     }
                 }
-                stage("Flywy - Info"){
+                stage("Flyway - Info"){
                     steps{
-                        flywayrunner installationName: 'flyway', flywayCommand: 'info', credentialsId: FLYWAY_CRED,  url: 'jdbc:sqlserver://sqlserver001.cxilhnt2jjvn.eu-central-1.rds.amazonaws.com:1433;databaseName=flywaytests', locations: 'filesystem:$WORKSPACE/sql', commandLineArgs: ''
+                        flywayrunner installationName: 'flyway', flywayCommand: 'info', credentialsId: FLYWAY_CRED,  url: 'jdbc:sqlserver://sqlserver001.cxilhnt2jjvn.eu-central-1.rds.amazonaws.com:1433;databaseName=flywaytests', locations: "filesystem:${env.WORKSPACE}/sql", commandLineArgs: ''
+                    }
 
+                }
+                stage("Flyway - Migrate"){
+                    when {
+                        branch 'first-branch'
+                    }
+                    steps{
+                    flywayrunner installationName: 'flyway', flywayCommand: 'migrate', credentialsId: FLYWAY_CRED,  url: 'jdbc:sqlserver://sqlserver001.cxilhnt2jjvn.eu-central-1.rds.amazonaws.com:1433;databaseName=flywaytests', locations: "filesystem:${env.WORKSPACE}/sql", commandLineArgs: ''
                     }
                 }
 
