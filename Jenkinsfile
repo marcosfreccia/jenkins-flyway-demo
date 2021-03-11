@@ -9,9 +9,7 @@ pipeline {
     stages {
         stage("flyway - tests"){
             when {
-                expression {
-                    env.BRANCH_NAME ==~ /dev|qa|first-branch/
-                }
+                branch 'first-branch'
             }
             stages{
                 stage("Init"){
