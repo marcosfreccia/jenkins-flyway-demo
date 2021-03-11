@@ -8,9 +8,6 @@ pipeline {
     }
     stages {
         stage("flyway - tests"){
-            when {
-                branch 'first-branch'
-            }
             stages{
                 stage("Init"){
                     steps{
