@@ -4,7 +4,7 @@
 pipeline {
     agent any
     environment {
-        FLYWAY_CRED = 'flyway_robot'
+        FLYWAY_CRED = 'flyway_robot_mssql'
     }
     stages {
         stage("flyway - tests"){
